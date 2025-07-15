@@ -1,0 +1,45 @@
+:root {
+  font-family: "Sawarabi Gothic", sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #151515;
+  background-color: #F9F9F9;
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  height: 100%;
+}
+
+button {
+  border-radius: 10px;
+  padding: 0.5em 0.5em;
+  margin-left: 1em;
+  font-size: 1em;
+  font-weight: 500;
+  background-color: #333333;
+  border: none;
+  cursor: pointer;
+}
+button:hover {
+  background-color: #5EA0F5;
+}
+
+/* .button_txt {
+  font-family: "Lato", sans-serif;
+  font-size: 1em;
+  font-weight: 500;
+} */
+
+
+/* button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+} */
+
+/* @media (prefers-color-scheme: dark) {
+  
+} */

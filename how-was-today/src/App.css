@@ -1,0 +1,29 @@
+#root {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.edit-aicons {
+  margin-bottom: 16px;
+  text-align: right;
+}
+
+@media screen and (orientation: landscape) {
+  .canvas{
+  height: calc(100dvh - 144px);
+  width: auto;
+  aspect-ratio: 1181 / 1748;
+}
+}
+
+@media screen and (orientation: portrait) {
+  .canvas{
+  width: calc(100dvw - 60px);
+  height: auto;
+  aspect-ratio: 1181 / 1748;
+}
+}
+
+canvas {
+  inline-size: 100%;
+}
