@@ -8,40 +8,10 @@ function EditAicon({img}) {
   return <button><img src={img} /></button>
 }
 
-function App() {
-  const [count, setCount] = useState(0);
-  const writeAicon = "/img/write_aicon.png";
-  const colorAicon = "/img/color_aicon.png";
-  const downloadAicon = "/img/download_aicon.png";
-
-  // 日記画像の幅（縮小表示）の計算
-  const contentsHeight = document.documentElement.clientHeight - 124;
-  const scale = contentsHeight / 1748;
-
-  // rootの幅用に計算
-  const rootWidth = 1181 * scale;
-
-  const topColor ='skyblue';
-  const bottomColor ='pink';
-
-  const cssRoot = css`
-    height: calc(100dvh - 60px);
-    width: ${ rootWidth }px;
-    margin: 30px 30px;
-    text-align: center;
-    background-color: #ccc;
-    display: block;
-  `
-  const cssAicons = css`
-    margin-bottom: 16px;
-    text-align: right;
-  `
-
-  const cssEnFont = css`
-    font-family: "Lato", sans-serif;
-  `
-
+// 日付のコンポーネント
+function DiaryDate() {
   const cssDate = css`
+    font-family: "Lato", sans-serif;
     font-style: italic;
     font-weight: normal;
     font-size: 140px;
@@ -53,6 +23,13 @@ function App() {
     left: 80px;
     line-height: 1;
     letter-spacing: -0.03em;
+  `
+  const cssYear = css`
+    font-size: 40px;
+    letter-spacing: normal;
+    position: absolute;
+    bottom: 120px;
+    right: 0px;
   `
 
   const cssDateLine = css`
@@ -77,14 +54,52 @@ function App() {
     right: 8px;
   `
 
-  const cssYear = css`
-    font-size: 40px;
-    letter-spacing: normal;
-    position: absolute;
-    bottom: 120px;
-    right: 0px;
-  `
+  // 日付をstateで管理
+  // ★日付変わったかのフラグはまだ。あとで追加
+  const [nowDate, setNowDate] = useState(() => new Date());
 
+  useEffect(() => {
+    const id = setInterval(() => {
+      setNowDate(new Date());
+    }, 60000);
+     return () => clearInterval(id);
+  } ,[nowDate]);
+
+  // const nowDateStr = Date.parse(nowDate);
+  let nowYear = nowDate.getFullYear();
+  let nowMonth = ("0" + (nowDate.getMonth() + 1)).slice(-2);
+  let nowDay = nowDate.getDate();
+  // console.log(nowDay, nowYear, nowMonth);
+
+  return (
+    <div css={cssDate}>
+      <div css={cssMonth}>{nowMonth}</div>
+      <div css={cssDateLine}></div>
+      <div css={cssDay}>{nowDay}</div>
+      <div css={cssYear}>{nowYear}</div>
+    </div>
+  );
+}
+
+// const Today = () => {
+//   const [date] = useState(() => new Date());
+
+//   return <div>{date.toLocaleString()}</div>;
+// };
+
+// 日記部分（表示）のコンポーネント
+function DiaryText({text}) {
+  const cssDiaryText = css`
+    font-size: 24px;
+    text-align: left;
+    user-select: none;
+    z-index: 1;
+  `
+  return <div css={cssDiaryText}>{text}</div>
+}
+
+// グラデーション部分のコンポーネント
+function DiaryGradation({topColor, bottomColor}) {
   const cssGradation = css`
     width: 624px;
     height: 1328px;
@@ -94,6 +109,95 @@ function App() {
     right: 99px;
     bottom: 164px;
   `
+  return <div css={cssGradation}></div>
+}
+
+function App() {
+  const [count, setCount] = useState(0);
+  const writeAicon = "/img/write_aicon.png";
+  const colorAicon = "/img/color_aicon.png";
+  const downloadAicon = "/img/download_aicon.png";
+
+  // 日記画像の幅（縮小表示）の計算
+  const contentsHeight = document.documentElement.clientHeight - 124;
+  const scale = contentsHeight / 1748;
+
+  // rootの幅用に計算
+  const rootWidth = 1181 * scale;
+
+  // グラデーションの色（仮置き）
+  const topColor ='skyblue';
+  const bottomColor ='pink';
+
+  const text = "これはダミーテキストです"
+
+  const cssRoot = css`
+    height: calc(100dvh - 60px);
+    width: ${ rootWidth }px;
+    margin: 30px 30px;
+    text-align: center;
+    background-color: #ccc;
+    display: block;
+  `
+  const cssAicons = css`
+    margin-bottom: 16px;
+    text-align: right;
+  `
+
+  // const cssDate = css`
+  //   font-family: "Lato", sans-serif;
+  //   font-style: italic;
+  //   font-weight: normal;
+  //   font-size: 140px;
+  //   user-select: none;
+  //   width: 280px;
+  //   height: 280px;
+  //   position: absolute;
+  //   top: 64px;
+  //   left: 80px;
+  //   line-height: 1;
+  //   letter-spacing: -0.03em;
+  // `
+
+  // const cssDateLine = css`
+  //   width: 340px;
+  //   height: 6px;
+  //   background-color: #151515;
+  //   transform:rotate(-45deg);
+  //   position: absolute;
+  //   top: 140px;
+  //   left: -32px;
+  // `
+
+  // const cssMonth = css`
+  //   position: absolute;
+  //   top: -8px;
+  //   left: -4px;
+  // `
+
+  // const cssDay = css`
+  //   position: absolute;
+  //   bottom: -8px;
+  //   right: 8px;
+  // `
+
+  // const cssYear = css`
+  //   font-size: 40px;
+  //   letter-spacing: normal;
+  //   position: absolute;
+  //   bottom: 120px;
+  //   right: 0px;
+  // `
+
+  // const cssGradation = css`
+  //   width: 624px;
+  //   height: 1328px;
+  //   background: linear-gradient(${ topColor }, ${ bottomColor });
+  //   mask: url(/img/window_mask.png);
+  //   position: absolute;
+  //   right: 99px;
+  //   bottom: 164px;
+  // `
 
   const cssDiaryTextArea = css`
     width: 720px;
@@ -104,11 +208,12 @@ function App() {
     bottom: 112px;
     left: 80px;
   `
-  const cssDiaryText = css`
-    font-size: 24px;
-    text-align: left;
-    z-index: 1;
-  `
+  // const cssDiaryText = css`
+  //   font-size: 24px;
+  //   text-align: left;
+  //   user-select: none;
+  //   z-index: 1;
+  // `
 
   const cssDiaryImage = css`
     width: 1181px;
@@ -116,7 +221,8 @@ function App() {
     background-color: #ffffff;
     border: solid 1px #C5C5C5;
   `
-    // デバイスサイズが縦長か横長かで分岐させる（★まだやってない）
+    // ★デバイスサイズが縦長か横長かで分岐させる（まだやってない）
+    // ★最小サイズも定めたい
   const cssImageVariable = css`
       transform-origin: top left;
       transform: scale(${ scale });
@@ -164,20 +270,16 @@ function App() {
     />
       <div css={cssRoot}>
         <div css={cssAicons}>
+          {/* ★↓クリックイベントをつける */}
           <EditAicon img={writeAicon} />
           <EditAicon img={colorAicon} />
           <EditAicon img={downloadAicon} />
         </div>
         <div css={[cssDiaryImage, cssImageVariable]}>
-          <div css={[cssDate, cssEnFont]}>
-            <div css={cssMonth}>07</div>
-            <div css={cssDateLine}></div>
-            <div css={cssDay}>23</div>
-            <div css={cssYear}>2025</div>
-          </div>
-          <div css={cssGradation}></div>
+          <DiaryDate />
+          <DiaryGradation topColor={topColor} bottomColor={bottomColor} />
           <div css={cssDiaryTextArea}>
-            <div css={cssDiaryText}>これはダミーテキストですこれはダミーテキストですこれはダミーテキストですこれはダミーテキストですこれはダミーテキストですこれはダミーテキストですこれはダミーテキストですこれはダミーテキストですこれはダミーテキストですこれはダミーテキストですこれはダミーテキストですこれはダミーテキストですこれはダミーテキストですこれはダミーテキストですこれはダミーテキストですこれはダミーテキストですこれはダミーテキストですこれはダミーテキストです</div>
+            <DiaryText text={text} />
           </div>
         </div>
       </div>
