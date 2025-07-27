@@ -4,8 +4,17 @@ import { Global, css } from '@emotion/react'
 import Canvas from './Canvas'
 import './App.css'
 
-function EditAicon({img}) {
-  return <button><img src={img} /></button>
+// 編集アイコンのコンポーネント
+function EditAicon({imgAicon, onEditAiconClick}) {
+  return <button><img src={imgAicon} onClick={onEditAiconClick} /></button>
+}
+
+// 書き込み画面のコンポーネント
+function WrittingArea({onWrittingArea}) {
+  if (onWrittingArea) {
+    return <div className='test'></div>
+  }
+  return;
 }
 
 // 日付のコンポーネント
@@ -113,7 +122,6 @@ function DiaryGradation({topColor, bottomColor}) {
 }
 
 function App() {
-  const [count, setCount] = useState(0);
   const writeAicon = "/img/write_aicon.png";
   const colorAicon = "/img/color_aicon.png";
   const downloadAicon = "/img/download_aicon.png";
@@ -131,6 +139,26 @@ function App() {
 
   const text = "これはダミーテキストです"
 
+  //書き込み画面を開いているかをstateで管理
+  const [onWrittingArea, setOnWrittingArea] = useState(false);
+
+  // 入力アイコンのイベントハンドラ
+  function WriteAiconClick() {
+    setOnWrittingArea(true);
+    WrittingArea(onWrittingArea);
+    console.log(onWrittingArea);
+  }
+
+  // 入力アイコンのイベントハンドラ
+  function ColorAiconClick() {
+    return;
+  }
+
+  // 入力アイコンのイベントハンドラ
+  function DownloadAiconClick() {
+    return;
+  }
+
   const cssRoot = css`
     height: calc(100dvh - 60px);
     width: ${ rootWidth }px;
@@ -144,61 +172,6 @@ function App() {
     text-align: right;
   `
 
-  // const cssDate = css`
-  //   font-family: "Lato", sans-serif;
-  //   font-style: italic;
-  //   font-weight: normal;
-  //   font-size: 140px;
-  //   user-select: none;
-  //   width: 280px;
-  //   height: 280px;
-  //   position: absolute;
-  //   top: 64px;
-  //   left: 80px;
-  //   line-height: 1;
-  //   letter-spacing: -0.03em;
-  // `
-
-  // const cssDateLine = css`
-  //   width: 340px;
-  //   height: 6px;
-  //   background-color: #151515;
-  //   transform:rotate(-45deg);
-  //   position: absolute;
-  //   top: 140px;
-  //   left: -32px;
-  // `
-
-  // const cssMonth = css`
-  //   position: absolute;
-  //   top: -8px;
-  //   left: -4px;
-  // `
-
-  // const cssDay = css`
-  //   position: absolute;
-  //   bottom: -8px;
-  //   right: 8px;
-  // `
-
-  // const cssYear = css`
-  //   font-size: 40px;
-  //   letter-spacing: normal;
-  //   position: absolute;
-  //   bottom: 120px;
-  //   right: 0px;
-  // `
-
-  // const cssGradation = css`
-  //   width: 624px;
-  //   height: 1328px;
-  //   background: linear-gradient(${ topColor }, ${ bottomColor });
-  //   mask: url(/img/window_mask.png);
-  //   position: absolute;
-  //   right: 99px;
-  //   bottom: 164px;
-  // `
-
   const cssDiaryTextArea = css`
     width: 720px;
     height: 1080px;
@@ -208,12 +181,6 @@ function App() {
     bottom: 112px;
     left: 80px;
   `
-  // const cssDiaryText = css`
-  //   font-size: 24px;
-  //   text-align: left;
-  //   user-select: none;
-  //   z-index: 1;
-  // `
 
   const cssDiaryImage = css`
     width: 1181px;
@@ -268,12 +235,13 @@ function App() {
         } 
       `}
     />
+    <WrittingArea onWrittingArea={onWrittingArea}/>
       <div css={cssRoot}>
         <div css={cssAicons}>
           {/* ★↓クリックイベントをつける */}
-          <EditAicon img={writeAicon} />
-          <EditAicon img={colorAicon} />
-          <EditAicon img={downloadAicon} />
+          <EditAicon imgAicon={writeAicon} onEditAiconClick={WriteAiconClick} />
+          <EditAicon imgAicon={colorAicon} onEditAiconClick={ColorAiconClick} />
+          <EditAicon imgAicon={downloadAicon} onEditAiconClick={DownloadAiconClick} />
         </div>
         <div css={[cssDiaryImage, cssImageVariable]}>
           <DiaryDate />
