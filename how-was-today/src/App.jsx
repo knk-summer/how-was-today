@@ -10,9 +10,79 @@ function EditAicon({imgAicon, onEditAiconClick}) {
 }
 
 // 書き込み画面のコンポーネント
-function WrittingArea({onWrittingArea}) {
-  if (onWrittingArea) {
-    return <div className='test'></div>
+function WrittingMode({onWrittingMode}) {
+    const cssWrittingMode = css`
+    width: 100%;
+    height: 100%;
+    background-color: rgba(249,249,249,0.9); 
+    z-index: 2;
+    position: absolute;
+    top: 0;
+    left: 0;
+  `
+
+  const cssWrittingWindow = css`
+    width: 530px;
+    height: 430px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%)
+  `
+
+  const cssCloseMark = css`
+    width: 24px;
+    height: 18px;
+    display: block;
+    position: absolute;
+    right: 0px;
+
+    &::before, &::after {
+      content: "";
+      width: 20px;
+      height: 1px;
+      position: absolute;
+      background-color: #333333;
+      top: 50%;
+      left: 50%;
+    }
+
+    &::before {
+      transform: translate(-50%,-50%) rotate(45deg);
+    }
+
+    &::after {
+      transform: translate(-50%,-50%) rotate(-45deg);
+    }
+  `
+
+  const cssInputTextArea = css`
+    background-color: #ffffff;
+    border: solid 1px #C5C5C5;
+    border-radius: 16px;
+    margin-top: 26px;
+    padding: 40px;
+  `
+
+  const cssInputForm = css`
+    width: 100%;
+    height: 240px;
+  `
+
+  if (onWrittingMode) {
+    return (
+      <div css={cssWrittingMode}>
+        <div css={cssWrittingWindow}>
+          <span css={cssCloseMark}></span>
+          <div css={cssInputTextArea}>
+            今日はどんな一日でしたか？ぜひ教えてください！
+            <textarea col="28" css={cssInputForm}></textarea>
+            <button>Save</button>
+          </div>
+        </div>
+        
+      </div>
+    )
   }
   return;
 }
@@ -140,13 +210,13 @@ function App() {
   const text = "これはダミーテキストです"
 
   //書き込み画面を開いているかをstateで管理
-  const [onWrittingArea, setOnWrittingArea] = useState(false);
+  const [onWrittingMode, setOnWrittingMode] = useState(false);
 
   // 入力アイコンのイベントハンドラ
   function WriteAiconClick() {
-    setOnWrittingArea(true);
-    WrittingArea(onWrittingArea);
-    console.log(onWrittingArea);
+    setOnWrittingMode(true);
+    WrittingMode(onWrittingMode);
+    console.log(onWrittingMode);
   }
 
   // 入力アイコンのイベントハンドラ
@@ -235,7 +305,7 @@ function App() {
         } 
       `}
     />
-    <WrittingArea onWrittingArea={onWrittingArea}/>
+    <WrittingMode onWrittingMode={onWrittingMode}/>
       <div css={cssRoot}>
         <div css={cssAicons}>
           {/* ★↓クリックイベントをつける */}
