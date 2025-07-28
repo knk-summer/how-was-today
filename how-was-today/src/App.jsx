@@ -10,7 +10,7 @@ function EditAicon({imgAicon, onEditAiconClick}) {
 }
 
 // 書き込み画面のコンポーネント
-function WrittingMode({onWrittingMode}) {
+function WrittingMode({onWrittingMode, onCloseAiconClick}) {
     const cssWrittingMode = css`
     width: 100%;
     height: 100%;
@@ -30,12 +30,13 @@ function WrittingMode({onWrittingMode}) {
     transform: translate(-50%,-50%)
   `
 
-  const cssCloseMark = css`
+  const cssCloseAicon = css`
     width: 24px;
     height: 18px;
     display: block;
     position: absolute;
     right: 0px;
+    cursor: pointer;
 
     &::before, &::after {
       content: "";
@@ -89,23 +90,25 @@ function WrittingMode({onWrittingMode}) {
     color: #ffffff;
     padding: 0.5rem 1rem;
   `
-
+  
   if (onWrittingMode) {
     return (
       <div css={cssWrittingMode}>
         <div css={cssWrittingWindow}>
-          <span css={cssCloseMark}></span>
+          <span css={cssCloseAicon} onClick={onCloseAiconClick}></span>
           <div css={cssInputTextArea}>
             <p css={cssWindowText}>今日はどんな一日でしたか？ぜひ教えてください！</p>
-            <textarea col="28" css={cssInputForm}>あなたが今日感じたことを書いてみてください</textarea>
-            <button css={cssSaveButton}>Save</button>
+            <textarea css={cssInputForm} defaultValue="あなたが今日感じたことを書いてみてください" col="28"></textarea>
+            <button css={cssSaveButton} onClick={onCloseAiconClick}>Save</button>
           </div>
         </div>
         
       </div>
     )
+  } else {
+    return <></>
   }
-  return;
+
 }
 
 // 日付のコンポーネント
@@ -228,24 +231,27 @@ function App() {
   const topColor ='skyblue';
   const bottomColor ='pink';
 
-  const text = "これはダミーテキストです"
+  const [text, setText] = useState("");
 
   //書き込み画面を開いているかをstateで管理
   const [onWrittingMode, setOnWrittingMode] = useState(false);
 
-  // 入力アイコンのイベントハンドラ
-  function WriteAiconClick() {
-    setOnWrittingMode(true);
-    WrittingMode(onWrittingMode);
-    console.log(onWrittingMode);
+  // 書き込み画面の閉じるアイコンのイベントハンドラ
+  function onCloseAiconClick() {
+    setOnWrittingMode(false);
   }
 
   // 入力アイコンのイベントハンドラ
+  function WriteAiconClick() {
+    setOnWrittingMode(true);
+  }
+
+  // 装飾アイコンのイベントハンドラ
   function ColorAiconClick() {
     return;
   }
 
-  // 入力アイコンのイベントハンドラ
+  // ダウンロードアイコンのイベントハンドラ
   function DownloadAiconClick() {
     return;
   }
@@ -326,7 +332,7 @@ function App() {
         } 
       `}
     />
-    <WrittingMode onWrittingMode={onWrittingMode}/>
+    <WrittingMode onWrittingMode={onWrittingMode} onCloseAiconClick={onCloseAiconClick} />
       <div css={cssRoot}>
         <div css={cssAicons}>
           {/* ★↓クリックイベントをつける */}
