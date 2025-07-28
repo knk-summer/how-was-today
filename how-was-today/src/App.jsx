@@ -62,11 +62,32 @@ function WrittingMode({onWrittingMode}) {
     border-radius: 16px;
     margin-top: 26px;
     padding: 40px;
+    text-align: right;
+  `
+
+  const cssWindowText = css`
+    width: 100%;
+    margin: 0px 0px 20px 0px;
+    text-align: left; 
   `
 
   const cssInputForm = css`
     width: 100%;
-    height: 240px;
+    height: 200px;
+    padding: 0px;
+    border-style: none none solid;
+    border-bottom: solid 2px #C5C5C5;
+    resize: none;
+    color: #919191;
+
+  `
+  const cssSaveButton = css`
+    font-family: "Lato", sans-serif;
+    font-style: italic;
+    font-size: 26px;
+    line-height: 1;
+    color: #ffffff;
+    padding: 0.5rem 1rem;
   `
 
   if (onWrittingMode) {
@@ -75,9 +96,9 @@ function WrittingMode({onWrittingMode}) {
         <div css={cssWrittingWindow}>
           <span css={cssCloseMark}></span>
           <div css={cssInputTextArea}>
-            今日はどんな一日でしたか？ぜひ教えてください！
-            <textarea col="28" css={cssInputForm}></textarea>
-            <button>Save</button>
+            <p css={cssWindowText}>今日はどんな一日でしたか？ぜひ教えてください！</p>
+            <textarea col="28" css={cssInputForm}>あなたが今日感じたことを書いてみてください</textarea>
+            <button css={cssSaveButton}>Save</button>
           </div>
         </div>
         
