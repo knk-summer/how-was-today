@@ -1,12 +1,18 @@
 /** @jsxImportSource @emotion/react */
 import { useRef, useEffect, useState } from 'react'
 import { Global, css } from '@emotion/react'
-import Canvas from './Canvas'
 import './App.css'
 
 // 編集アイコンのコンポーネント
 function EditAicon({imgAicon, onEditAiconClick}) {
-  return <button><img src={imgAicon} onClick={onEditAiconClick} /></button>
+  return(
+    <button>
+      <img 
+        src={imgAicon}
+        onClick={onEditAiconClick}
+    />
+    </button>
+    )
 }
 
 // 書き込み画面のコンポーネント
@@ -94,11 +100,25 @@ function WrittingMode({onWrittingMode, onCloseAiconClick, text, setText}) {
     return (
       <div css={cssWrittingMode}>
         <div css={cssWrittingWindow}>
-          <span css={cssCloseAicon} onClick={onCloseAiconClick}></span>
+          <span
+            css={cssCloseAicon}
+            onClick={onCloseAiconClick}
+          >
+          </span>
           <div css={cssInputTextArea}>
             <p css={cssWindowText}>今日はどんな一日でしたか？ぜひ教えてください！</p>
-            <textarea css={cssInputForm} placeholder="あなたが今日感じたことを書いてみてください" value={text} onChange={(event) => setText(event.target.value)}></textarea>
-            <button css={cssSaveButton} onClick={onCloseAiconClick}>Save</button>
+            <textarea
+              css={cssInputForm}
+              placeholder="あなたが今日感じたことを書いてみてください"
+              value={text}
+              onChange={(event) => setText(event.target.value)}
+             />
+            <button
+              css={cssSaveButton}
+              onClick={onCloseAiconClick}
+            >
+              Save
+            </button>
           </div>
         </div>
         
@@ -109,7 +129,7 @@ function WrittingMode({onWrittingMode, onCloseAiconClick, text, setText}) {
   }
 }
 
-// 色編集画面のコンポーネント
+// カスタマイズ画面のコンポーネント
 function CustomizeMode({onCustomizeMode, topColor, setTopColor, bottomColor, setBottomColor}) {
 
   const cssCustomizeMode = css`
@@ -163,7 +183,10 @@ function CustomizeMode({onCustomizeMode, topColor, setTopColor, bottomColor, set
       <div css={cssCustomizeMode}>
         <div className='CustomizeGradationColor'>
           <div css={cssColorInput}>
-            <label css={cssColorLabel} htmlFor='top-color'>
+            <label
+              css={cssColorLabel}
+              htmlFor='top-color'
+            >
               Top
             </label>
             <input css={cssColorPicker} 
@@ -174,7 +197,10 @@ function CustomizeMode({onCustomizeMode, topColor, setTopColor, bottomColor, set
             />
           </div>
           <div css={cssColorInput}>
-            <label css={cssColorLabel} htmlFor='bottom-color'>
+            <label
+              css={cssColorLabel}
+              htmlFor='bottom-color'
+            >
               Bottom
             </label>
             <input css={cssColorPicker} 
@@ -238,7 +264,6 @@ function DiaryDate() {
   `
 
   // 日付をstateで管理
-  // ★日付変わったかのフラグはまだ。あとで追加
   const [nowDate, setNowDate] = useState(() => new Date());
 
   useEffect(() => {
@@ -248,11 +273,9 @@ function DiaryDate() {
      return () => clearInterval(id);
   } ,[nowDate]);
 
-  // const nowDateStr = Date.parse(nowDate);
   let nowYear = nowDate.getFullYear();
   let nowMonth = ("0" + (nowDate.getMonth() + 1)).slice(-2);
   let nowDay = nowDate.getDate();
-  // console.log(nowDay, nowYear, nowMonth);
 
   return (
     <div css={cssDate}>
@@ -263,12 +286,6 @@ function DiaryDate() {
     </div>
   );
 }
-
-// const Today = () => {
-//   const [date] = useState(() => new Date());
-
-//   return <div>{date.toLocaleString()}</div>;
-// };
 
 // 日記部分（表示）のコンポーネント
 function DiaryText({text}) {
@@ -307,29 +324,30 @@ function App() {
   // rootの幅用に計算
   const rootWidth = 1181 * scale;
 
-  // グラデーションの色をstateで管理
+  // グラデーションの色のstate
   const [topColor, setTopColor] = useState('#333333')
   const [bottomColor, setBottomColor] = useState('#D9D9D9')
 
+   // 入力テキストのstate
   const [text, setText] = useState("");
 
-  //書き込み画面を開いているかをstateで管理
+  //書き込み画面を開いているかのstate
   const [onWrittingMode, setOnWrittingMode] = useState(false);
 
-  //カスタマイズ画面を開いているかをstateで管理
+  //カスタマイズ画面を開いているかのstate
   const [onCustomizeMode, setOnCustomizeMode] = useState(false);
 
-  // 書き込み画面の閉じるアイコンのイベントハンドラ
+  // 書き込み画面の閉じるアイコンのハンドラ
   function onCloseAiconClick() {
     setOnWrittingMode(false);
   }
 
-  // 入力アイコンのイベントハンドラ
+  // 入力アイコンのイハンドラ
   function writingAiconClick() {
     setOnWrittingMode(true);
   }
 
-  // カスタマイズアイコンのイベントハンドラ
+  // カスタマイズアイコンのハンドラ
   function customizeAiconClick() {
     if (!onCustomizeMode) {
       setOnCustomizeMode(true);
@@ -338,7 +356,7 @@ function App() {
     }
   }
 
-  // ダウンロードアイコンのイベントハンドラ
+  // ダウンロードアイコンのハンドラ
   function DownloadAiconClick() {
     return;
   }
@@ -348,7 +366,6 @@ function App() {
     width: ${ rootWidth }px;
     margin: 30px 30px;
     text-align: center;
-    background-color: #ccc;
     display: block;
     position: relative;
   `
@@ -420,18 +437,40 @@ function App() {
         } 
       `}
     />
-    <WrittingMode onWrittingMode={onWrittingMode} onCloseAiconClick={onCloseAiconClick} text={text} setText={setText}/>
+    <WrittingMode
+      onWrittingMode={onWrittingMode}
+      onCloseAiconClick={onCloseAiconClick}
+      text={text}
+      setText={setText}
+    />
       <div css={cssRoot}>
-        <CustomizeMode onCustomizeMode={onCustomizeMode} topColor={topColor} setTopColor={setTopColor}  bottomColor={bottomColor} setBottomColor={setBottomColor} />
+        <CustomizeMode
+          onCustomizeMode={onCustomizeMode}
+          topColor={topColor}
+          setTopColor={setTopColor}
+          bottomColor={bottomColor}
+          setBottomColor={setBottomColor}
+        />
         <div css={cssAicons}>
-          {/* ★↓クリックイベントをつける */}
-          <EditAicon imgAicon={writingAicon} onEditAiconClick={writingAiconClick} />
-          <EditAicon imgAicon={customizeAicon} onEditAiconClick={customizeAiconClick} />
-          <EditAicon imgAicon={downloadAicon} onEditAiconClick={DownloadAiconClick} />
+          <EditAicon
+            imgAicon={writingAicon}
+            onEditAiconClick={writingAiconClick}
+          />
+          <EditAicon
+            imgAicon={customizeAicon}
+            onEditAiconClick={customizeAiconClick}
+          />
+          <EditAicon
+            imgAicon={downloadAicon}
+            onEditAiconClick={DownloadAiconClick}
+          />
         </div>
         <div css={[cssDiaryImage, cssImageVariable]}>
           <DiaryDate />
-          <DiaryGradation topColor={topColor} bottomColor={bottomColor} />
+          <DiaryGradation
+            topColor={topColor}
+            bottomColor={bottomColor}
+          />
           <div css={cssDiaryTextArea}>
             <DiaryText text={text} />
           </div>
