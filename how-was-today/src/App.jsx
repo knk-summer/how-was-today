@@ -10,7 +10,7 @@ function EditAicon({imgAicon, onEditAiconClick}) {
 }
 
 // 書き込み画面のコンポーネント
-function WrittingMode({onWrittingMode, onCloseAiconClick}) {
+function WrittingMode({onWrittingMode, onCloseAiconClick, text, setText}) {
     const cssWrittingMode = css`
     width: 100%;
     height: 100%;
@@ -79,7 +79,6 @@ function WrittingMode({onWrittingMode, onCloseAiconClick}) {
     border-style: none none solid;
     border-bottom: solid 2px #C5C5C5;
     resize: none;
-    color: #919191;
 
   `
   const cssSaveButton = css`
@@ -98,7 +97,7 @@ function WrittingMode({onWrittingMode, onCloseAiconClick}) {
           <span css={cssCloseAicon} onClick={onCloseAiconClick}></span>
           <div css={cssInputTextArea}>
             <p css={cssWindowText}>今日はどんな一日でしたか？ぜひ教えてください！</p>
-            <textarea css={cssInputForm} defaultValue="あなたが今日感じたことを書いてみてください" col="28"></textarea>
+            <textarea css={cssInputForm} placeholder="あなたが今日感じたことを書いてみてください" value={text} onChange={(event) => setText(event.target.value)}></textarea>
             <button css={cssSaveButton} onClick={onCloseAiconClick}>Save</button>
           </div>
         </div>
@@ -108,7 +107,6 @@ function WrittingMode({onWrittingMode, onCloseAiconClick}) {
   } else {
     return <></>
   }
-
 }
 
 // 色編集画面のコンポーネント
@@ -422,7 +420,7 @@ function App() {
         } 
       `}
     />
-    <WrittingMode onWrittingMode={onWrittingMode} onCloseAiconClick={onCloseAiconClick} />
+    <WrittingMode onWrittingMode={onWrittingMode} onCloseAiconClick={onCloseAiconClick} text={text} setText={setText}/>
       <div css={cssRoot}>
         <CustomizeMode onCustomizeMode={onCustomizeMode} topColor={topColor} setTopColor={setTopColor}  bottomColor={bottomColor} setBottomColor={setBottomColor} />
         <div css={cssAicons}>
