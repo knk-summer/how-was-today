@@ -111,6 +111,88 @@ function WrittingMode({onWrittingMode, onCloseAiconClick}) {
 
 }
 
+// 色編集画面のコンポーネント
+function CustomizeMode({onCustomizeMode, topColor, setTopColor, bottomColor, setBottomColor}) {
+
+  const cssCustomizeMode = css`
+    width: 80px;
+    height: auto;
+    background-color: #AFAFAF;
+    border-radius: 8px;
+    position: absolute;
+    top: 25%;
+    right: -16px;
+    z-index: 1;
+
+    &::before{
+      content: "";
+      position: absolute;
+      display: block;
+      width: 0px;
+      height; 0px;
+      left: -15px;
+      top: calc(50% - 15px);
+      border-right: 15px solid #AFAFAF;
+      border-top: 12px solid transparent;
+      border-bottom: 12px solid transparent;
+    }
+  `
+
+  const cssColorInput = css`
+    width: 56px;
+    margin: 12px;
+  `
+
+  const cssColorLabel = css`
+    font-family: "Lato", sans-serif;
+    font-style: italic;
+    font-weight: bold;
+    font-size: 1em;
+    color: #ffffff;
+    width: 100%;
+    display: block;
+  `
+  const cssColorPicker = css`
+    width: 100%;
+    height: 32px;
+    border: none;
+    background: none;
+    display: block;
+  `
+
+  if (onCustomizeMode) {
+    return(
+      <div css={cssCustomizeMode}>
+        <div className='CustomizeGradationColor'>
+          <div css={cssColorInput}>
+            <label css={cssColorLabel} htmlFor='top-color'>
+              Top
+            </label>
+            <input css={cssColorPicker} 
+              type='color' 
+              id='top-color' 
+              value={topColor} 
+              onChange={(event) => setTopColor(event.target.value)}
+            />
+          </div>
+          <div css={cssColorInput}>
+            <label css={cssColorLabel} htmlFor='bottom-color'>
+              Bottom
+            </label>
+            <input css={cssColorPicker} 
+              type='color' 
+              id='bottom-color' 
+              value={bottomColor} 
+              onChange={(event) => setBottomColor(event.target.value)}
+            />
+          </div>
+        </div>
+      </div> 
+    );
+  }
+
+}
+
 // 日付のコンポーネント
 function DiaryDate() {
   const cssDate = css`
@@ -216,8 +298,8 @@ function DiaryGradation({topColor, bottomColor}) {
 }
 
 function App() {
-  const writeAicon = "/img/write_aicon.png";
-  const colorAicon = "/img/color_aicon.png";
+  const writingAicon = "/img/write_aicon.png";
+  const customizeAicon = "/img/color_aicon.png";
   const downloadAicon = "/img/download_aicon.png";
 
   // 日記画像の幅（縮小表示）の計算
@@ -227,14 +309,17 @@ function App() {
   // rootの幅用に計算
   const rootWidth = 1181 * scale;
 
-  // グラデーションの色（仮置き）
-  const topColor ='skyblue';
-  const bottomColor ='pink';
+  // グラデーションの色をstateで管理
+  const [topColor, setTopColor] = useState('#333333')
+  const [bottomColor, setBottomColor] = useState('#D9D9D9')
 
   const [text, setText] = useState("");
 
   //書き込み画面を開いているかをstateで管理
   const [onWrittingMode, setOnWrittingMode] = useState(false);
+
+  //カスタマイズ画面を開いているかをstateで管理
+  const [onCustomizeMode, setOnCustomizeMode] = useState(false);
 
   // 書き込み画面の閉じるアイコンのイベントハンドラ
   function onCloseAiconClick() {
@@ -242,13 +327,17 @@ function App() {
   }
 
   // 入力アイコンのイベントハンドラ
-  function WriteAiconClick() {
+  function writingAiconClick() {
     setOnWrittingMode(true);
   }
 
-  // 装飾アイコンのイベントハンドラ
-  function ColorAiconClick() {
-    return;
+  // カスタマイズアイコンのイベントハンドラ
+  function customizeAiconClick() {
+    if (!onCustomizeMode) {
+      setOnCustomizeMode(true);
+    } else {
+      setOnCustomizeMode(false);
+    }
   }
 
   // ダウンロードアイコンのイベントハンドラ
@@ -263,6 +352,7 @@ function App() {
     text-align: center;
     background-color: #ccc;
     display: block;
+    position: relative;
   `
   const cssAicons = css`
     margin-bottom: 16px;
@@ -334,10 +424,11 @@ function App() {
     />
     <WrittingMode onWrittingMode={onWrittingMode} onCloseAiconClick={onCloseAiconClick} />
       <div css={cssRoot}>
+        <CustomizeMode onCustomizeMode={onCustomizeMode} topColor={topColor} setTopColor={setTopColor}  bottomColor={bottomColor} setBottomColor={setBottomColor} />
         <div css={cssAicons}>
           {/* ★↓クリックイベントをつける */}
-          <EditAicon imgAicon={writeAicon} onEditAiconClick={WriteAiconClick} />
-          <EditAicon imgAicon={colorAicon} onEditAiconClick={ColorAiconClick} />
+          <EditAicon imgAicon={writingAicon} onEditAiconClick={writingAiconClick} />
+          <EditAicon imgAicon={customizeAicon} onEditAiconClick={customizeAiconClick} />
           <EditAicon imgAicon={downloadAicon} onEditAiconClick={DownloadAiconClick} />
         </div>
         <div css={[cssDiaryImage, cssImageVariable]}>
