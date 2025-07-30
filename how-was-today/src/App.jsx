@@ -3,6 +3,10 @@ import { useRef, useEffect, useState } from 'react'
 import { Global, css } from '@emotion/react'
 import './App.css'
 import * as htmlToImage from 'html-to-image';
+import writingAicon from '/src/assets/write_aicon.png';
+import customizeAicon from '/src/assets/color_aicon.png';
+import downloadAicon from '/src/assets/download_aicon.png';
+import windowMask from '/src/assets/window_mask.png'
 
 // 編集アイコンのコンポーネント
 function EditAicon({imgAicon, onEditAiconClick}) {
@@ -306,7 +310,7 @@ function DiaryGradation({topColor, bottomColor}) {
     width: 624px;
     height: 1328px;
     background: linear-gradient(${ topColor }, ${ bottomColor });
-    mask: url(./src/assets/window_mask.png);
+    mask: url(${ windowMask });
     position: absolute;
     right: 99px;
     bottom: 164px;
@@ -315,10 +319,6 @@ function DiaryGradation({topColor, bottomColor}) {
 }
 
 function App() {
-  const writingAicon = "./src/assets/write_aicon.png";
-  const customizeAicon = "./src/assets/color_aicon.png";
-  const downloadAicon = "./src/assets/download_aicon.png";
-
   // 日記画像の幅（縮小表示）の計算
   const contentsHeight = document.documentElement.clientHeight - 124;
   const scale = contentsHeight / 1748;
