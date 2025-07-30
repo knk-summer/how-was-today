@@ -38,7 +38,13 @@ function WrittingMode({onWrittingMode, onCloseAiconClick, text, setText}) {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%,-50%)
+    transform: translate(-50%,-50%);
+    
+    @media screen and (max-width: 600px) {
+      &{
+        width: calc(100dvw - 60px);
+      }
+    }
   `
 
   const cssCloseAicon = css`
@@ -321,14 +327,17 @@ function DiaryGradation({topColor, bottomColor}) {
 function App() {
   // 日記画像の幅（縮小表示）の計算
   const contentsHeight = document.documentElement.clientHeight - 124;
-  const scale = contentsHeight / 1748;
+  const heightScale = contentsHeight / 1748;
+
+  const contentsWidth = document.documentElement.clientWidth - 60;
+  const widthScale = contentsWidth / 1181;
 
   // rootの幅用に計算
-  const rootWidth = 1181 * scale;
+  const rootWidth = 1181 * heightScale;
 
   // グラデーションの色のstate
-  const [topColor, setTopColor] = useState('#333333')
-  const [bottomColor, setBottomColor] = useState('#D9D9D9')
+  const [topColor, setTopColor] = useState('#bee5ffff')
+  const [bottomColor, setBottomColor] = useState('#ffd7d7ff')
 
    // 入力テキストのstate
   const [text, setText] = useState("");
@@ -392,6 +401,12 @@ function App() {
     text-align: center;
     display: block;
     position: relative;
+
+    @media screen and (orientation: portrait) {
+      &{
+        width: calc(100dvw - 60px);
+      }
+    }
   `
   const cssAicons = css`
     margin-bottom: 16px;
@@ -414,20 +429,17 @@ function App() {
     background-color: #ffffff;
     border: solid 1px #C5C5C5;
   `
-    // ★デバイスサイズが縦長か横長かで分岐させる（まだやってない）
-    // ★最小サイズも定めたい
+  
   const cssImageVariable = css`
       transform-origin: top left;
-      transform: scale(${ scale });
+      transform: scale(${ heightScale });
       aspect-ratio: 1181 / 1748;
-
-    // @media screen and (orientation: portrait) {
-    //   &{
-    //   width: calc(100dvw - 60px);
-    //   height: auto;
-    //   aspect-ratio: 1181 / 1748;
-    //   }
-    // }
+      
+    @media screen and (orientation: portrait) {
+      &{
+      transform: scale(${ widthScale });
+      }
+    }
   `
 
   return (
