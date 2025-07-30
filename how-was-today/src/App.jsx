@@ -2,6 +2,7 @@
 import { useRef, useEffect, useState } from 'react'
 import { Global, css } from '@emotion/react'
 import './App.css'
+import * as htmlToImage from 'html-to-image';
 
 // 編集アイコンのコンポーネント
 function EditAicon({imgAicon, onEditAiconClick}) {
@@ -220,7 +221,7 @@ function CustomizeMode({onCustomizeMode, topColor, setTopColor, bottomColor, set
 // 日付のコンポーネント
 function DiaryDate() {
   const cssDate = css`
-    font-family: "Lato", sans-serif;
+    font-family: sans-serif;
     font-style: italic;
     font-weight: normal;
     font-size: 140px;
@@ -290,6 +291,7 @@ function DiaryDate() {
 // 日記部分（表示）のコンポーネント
 function DiaryText({text}) {
   const cssDiaryText = css`
+    font-family: sans-serif;
     font-size: 24px;
     text-align: left;
     user-select: none;
@@ -358,7 +360,29 @@ function App() {
 
   // ダウンロードアイコンのハンドラ
   function DownloadAiconClick() {
-    return;
+    const node = document.getElementById('target')
+    // 表示用borderを無効化
+    node.style.border = 'none';
+    // html-to-imageで日記画像をpngに
+    htmlToImage.toPng(node,
+    {
+      // webフォントの処理に迷ったので一旦無効化
+      skipFonts: true,
+      skipStyle: true,
+      style: {
+        // 原寸（ポストカード）大に
+        transform: 'none',
+      }
+    })
+    .then(function(dataUrl) {
+      const link = document.createElement('a');
+      link.href = dataUrl
+      link.download = 'diary.png'
+      link.click();
+    })
+
+    // 表示用borderを有効化
+    node.style.border = 'solid 1px #C5C5C5';
   }
 
   const cssRoot = css`
@@ -465,7 +489,7 @@ function App() {
             onEditAiconClick={DownloadAiconClick}
           />
         </div>
-        <div css={[cssDiaryImage, cssImageVariable]}>
+        <div id="target" css={[cssDiaryImage, cssImageVariable]}>
           <DiaryDate />
           <DiaryGradation
             topColor={topColor}
