@@ -306,7 +306,7 @@ function DiaryGradation({topColor, bottomColor}) {
     width: 624px;
     height: 1328px;
     background: linear-gradient(${ topColor }, ${ bottomColor });
-    mask: url(/img/window_mask.png);
+    mask: url(./src/assets/window_mask.png);
     position: absolute;
     right: 99px;
     bottom: 164px;
@@ -315,9 +315,9 @@ function DiaryGradation({topColor, bottomColor}) {
 }
 
 function App() {
-  const writingAicon = "/img/write_aicon.png";
-  const customizeAicon = "/img/color_aicon.png";
-  const downloadAicon = "/img/download_aicon.png";
+  const writingAicon = "./src/assets/write_aicon.png";
+  const customizeAicon = "./src/assets/color_aicon.png";
+  const downloadAicon = "./src/assets/download_aicon.png";
 
   // 日記画像の幅（縮小表示）の計算
   const contentsHeight = document.documentElement.clientHeight - 124;
