@@ -336,8 +336,8 @@ function App() {
   const rootWidth = 1181 * heightScale;
 
   // グラデーションの色のstate
-  const [topColor, setTopColor] = useState('#bee5ffff')
-  const [bottomColor, setBottomColor] = useState('#ffd7d7ff')
+  const [topColor, setTopColor] = useState('#febebe')
+  const [bottomColor, setBottomColor] = useState('#bee5fe')
 
    // 入力テキストのstate
   const [text, setText] = useState("");
